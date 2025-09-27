@@ -1,6 +1,7 @@
 import os
 import re
 import json
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 import httpx
