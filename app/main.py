@@ -7,6 +7,13 @@ import httpx
 import PyPDF2
 
 app = FastAPI(title="Budget Analyzer PDF")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # For testing, "*" allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Set your OpenRouter API key in your environment variables
 API_KEY = os.getenv("OPENROUTER_API_KEY")
