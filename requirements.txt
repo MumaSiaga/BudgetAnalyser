@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+httpx
+PyPDF2
+python-multipart
