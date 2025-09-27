@@ -2,7 +2,7 @@ import os
 import re
 import json
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, UploadFile, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 import httpx
 import PyPDF2
@@ -10,7 +10,7 @@ import PyPDF2
 app = FastAPI(title="Budget Analyzer PDF")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For testing, "*" allows all origins
+    allow_origins=["*"],  # For React local testing
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -89,16 +89,18 @@ async def analyze_transactions(text: str) -> dict:
         raise HTTPException(status_code=500, detail=f"Error analyzing transactions: {e}")
 
 @app.post("/analyze_pdf/")
-async def analyze_pdf(pdf_file: UploadFile):
+async def analyze_pdf(file: UploadFile = File(...)):
     """
     Upload a PDF of financial statements and get a summarized analysis in structured JSON.
+    Works with React FormData file uploads.
     """
-    if pdf_file.content_type != "application/pdf":
+    if file.content_type != "application/pdf":
         raise HTTPException(status_code=400, detail="Only PDF files are supported.")
     
-    text = extract_text_from_pdf(pdf_file)
+    text = extract_text_from_pdf(file)
     if not text:
         raise HTTPException(status_code=400, detail="No text could be extracted from PDF.")
     
     analysis = await analyze_transactions(text)
     return JSONResponse(content=analysis)
+
