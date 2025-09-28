@@ -103,4 +103,7 @@ async def analyze_pdf(file: UploadFile = File(...)):
     
     analysis = await analyze_transactions(text)
     return JSONResponse(content=analysis)
+@app.get("/health")
+async def health():
+    return {"status": "OK"}
 
