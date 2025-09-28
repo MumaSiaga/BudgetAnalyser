@@ -61,7 +61,7 @@ async def analyze_transactions(text: str) -> dict:
                 "https://openrouter.ai/api/v1/chat/completions",
                 headers={"Authorization": f"Bearer {API_KEY}"},
                 json={
-                    "model": "deepseek/deepseek-r1-distill-llama-70b:free",
+                    "model": "x-ai/grok-4-fast:free",
                     "messages": [{"role": "user", "content": prompt}],
                 },
             )
